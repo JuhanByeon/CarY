@@ -9,13 +9,12 @@
 		values(cs_seq.nextval,#{cs_tit},#{cs_content},#{cs_writer},sysdate)
 	</insert>
 
-	<select id="csList" resultType="Cs">
-		select * from cs order by cs_idx
-		desc
+	<select id="csTotalList" resultType="Cs">
+		select * from cs order by cs_idx desc
 	</select>
 
 	<select id="getTotalCount" resultType="int">
-		select count(cs_idx) from cs
+		select count(*) from cs
 	</select>
 
 	<select id="pageCs" parameterType="HashMap" resultType="Cs">
@@ -24,11 +23,11 @@
 		where rn between #{start} and #{end}
 	</select>
 	
-	<select id="getcs" resultType="Cs" parameterType="int">
-		select * from cs where cs_idx=#{value}
+	<select id="getSpecificCS" resultType="Cs" parameterType="int">
+		select * from cs where cs_idx= #{idx}
 	</select>
 		
-	<update id="editCS" parameterType="hashmap">
+	<update id="editCS" parameterType="Cs">
 		update cs set cs_tit=#{cs_tit},cs_content=#{cs_content} where cs_idx=#{cs_idx}
 	</update>
 	 

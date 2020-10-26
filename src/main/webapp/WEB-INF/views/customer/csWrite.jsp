@@ -125,7 +125,7 @@ input, textarea{
 
             <div class="btn_group">
                 <button type="button" class="btn btn_back" onclick="goback()">취소</button>
-                <button class="btn btn_next">접수</button>
+                <button type="submit" class="btn btn_next">접수</button>
             </div>
             
             

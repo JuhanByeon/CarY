@@ -264,16 +264,24 @@
             <div class="cfixed qa_btn_box">
                 <a href="cshome.do" class="qa_btn">나가기</a>
                 <a href="#" class="qa_btn" style="background: #ededed; color:#2f3640 " onclick="clickEdit()">글수정</a>
-            	<a href="csdelete.do?cs_idx=${cs.cs_idx}" class="qa_btn">삭제</a>
+            	<a href="#" onclick="clickDelete()" class="qa_btn">삭제</a>
             </div>
             
-     
     </section>
-     <form method="post" action="csedit.do">
+    
+     <form method="post" action="csedit">
    		<input name="cs_idx" type="hidden" id="cs_idx"> 
-    </form> 
+     </form> 
+     
     <script>
-   	 	function clickEdit(){
+		function clickDelete(){
+			$("#cs_idx").parent().prop('action','user/csdelete');
+			$("#cs_idx").prop('name','cs_idx');
+			$("#cs_idx").val(${cs.cs_idx});	
+			$("#cs_idx").parent().submit();		
+		}
+
+ 		function clickEdit(){
    	 		$("#cs_idx").val($(".tbody").children(".table_num").text())
     		//($(".tbody").children(".table_num").text())
     		$("#cs_idx").parent().submit()    		

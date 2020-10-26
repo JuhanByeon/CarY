@@ -105,7 +105,7 @@ input, textarea{
 </style>
 
  <section class="container" style="margin-top: 60px;">
-        <form action="cseditEnd.do" name="cs" id="cs" method="GET">
+        <form action="cseditEnd" name="cs" id="cs" method="GET">
             <h1 class="board_tit">문의사항을 수정해주세요</h1>
 
             <div class="input_box">

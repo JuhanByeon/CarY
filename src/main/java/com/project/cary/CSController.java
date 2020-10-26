@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -30,74 +31,67 @@ public class CSController {
 	CSService csService;
 	
 	@GetMapping("/cshome")
-	public String csHome() {
-		return "customer/csList";
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-	/*@Autowired
-	public CSService csService;
-	
-	@RequestMapping("/cshome")
-	public String csHome(Model model,@ModelAttribute("pageInfo") PagingVO pageInfo, BindingResult bindingResult) {
-		
-		if(pageInfo.getCpage() == 0) {
-			pageInfo.setCpage(1);
-		}
-		int totalCS = this.csService.getTotalCount();
-		pageInfo.setTotalCount(totalCS);
-		pageInfo.init();
-		log.info(pageInfo);
-		model.addAttribute("page",pageInfo);
-		
-		List<CsVO> csList = this.csService.csListwithPaging(pageInfo);
+	public String csHome(Model model) {
+		List<CsVO> csList = this.csService.selectCSList();
 		log.info(csList);
-		model.addAttribute("csList",csList);
-		
+		model.addAttribute("csList", csList);
 		return "customer/csList";
 	}
 	
-	@RequestMapping("/csdetail")
-	public String csDetailshow(Model model, @RequestParam(defaultValue = "0") int idx) {
+	@PostMapping("user/cswrite")
+	public String csWrite() {
+		return "customer/csWrite";
+	}
+		
+	@PostMapping("user/cswriteEnd")
+	public String csWriteEnd(Model model,@ModelAttribute("cs") CsVO cs, BindingResult bindingResult,
+			HttpSession session) {
+		log.info(cs);
+		UserVO user = (UserVO)session.getAttribute("loginUser");
+		cs.setMember_idx(user.getMember_idx());
+		cs.setCs_writer(user.getMember_id());
+		
+		int csPostCheck = this.csService.insertCS(cs);
+	
+		String msg = (csPostCheck>0)? "고객 게시판에 해당 게시물이 등록되었습니다":"고객 게시판 게시물 등록 실패";
+		String loc = (csPostCheck>0)? "../cshome":"javascript:history.back()";
+		
+		model.addAttribute("message", msg);
+		model.addAttribute("loc", loc);
+		
+		return "msg";
+	}
+	
+	@GetMapping("/csdetail")
+	public String csDetailshow(Model model, @RequestParam(defaultValue="0") int idx){
 		if(idx == 0) {
 			String msg ="잘못된 경로로부터의 접근입니다.";
 			String loc = "javascript:history.back()";
 			return "msg";
 		}
 		
-		CsVO cs = this.csService.getcs(idx);
+		CsVO cs = this.csService.selectCSbyidx(idx);
 		model.addAttribute("cs",cs);
 		return "customer/csDetail";
 	}
-	
-	@RequestMapping("/user/cswrite")
-	public String csWrite() {
-		return "customer/csWrite";
-	}
-	
-	@RequestMapping("/user/cswriteEnd")
-	public String csWriteEnd(Model model,HttpSession session, @ModelAttribute("cs") CsVO cs) {
-		log.info(cs);
-		UserVO user=(UserVO)session.getAttribute("loginUser");
-				
-		cs.setMember_idx(user.getMember_idx());
-		cs.setCs_writer(user.getMember_id());
-		log.info("CSWEND:"+cs);
-		int n = this.csService.insertCS(cs);
-	
-		String msg = n>0? "문의글이 등록되었습니다":"문의글 등록 실패";
-		String loc = n>0? "../cshome":"javascript:history.back()";
-		model.addAttribute("message",msg);
-		model.addAttribute("loc",loc);
+
+	@PostMapping("user/csdelete")
+	public String csDelete(Model model,@RequestParam(defaultValue = "0") int cs_idx) {
+		if(cs_idx == 0) {
+			String msg ="잘못된 경로로부터의 접근입니다.";
+			String loc = "javascript:history.back()";
+			return "msg";
+		}
+		
+		int number = this.csService.deleteCSbyidx(cs_idx);
+		
+		String msg = (number>0)? "해당 게시물이 삭제되었습니다":"게시물 삭제 실패";
+		String loc = (number>0)? "../cshome":"javascript:history.back()";
+		
+		model.addAttribute("message", msg);
+		model.addAttribute("loc", loc);
+		
 		return "msg";
-	}*/
+		
+	}
 }

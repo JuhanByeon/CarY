@@ -195,7 +195,7 @@ button:hover {
 
 <div class="top-margin"></div>
 <section class="container">
-	<form action="user/cswrite">
+	<form action="user/cswrite" method="post">
 		<div class="header_tit cfixed">
 			<h2 class="tit">문의하기</h2>
 		</div>
@@ -208,10 +208,10 @@ button:hover {
 					<div class="table_writer">글쓴이</div>
 					<div class="table_date">작성일</div>
 				</div>
-				<c:if test="${csList ==null || empty csList }">
+				<c:if test="${csList == null || empty csList }">
 					<div>데이터가 없어요</div>
 				</c:if>
-				<c:if test="${csList !=null && not empty csList}">
+				<c:if test="${csList != null && not empty csList}">
 					<c:forEach var="cs" items="${csList}">
 						<div class="tbody cfixed">
 							<div class="table_num">${cs.cs_idx}</div>
@@ -232,7 +232,7 @@ button:hover {
 			<button class="qa_btn">글쓰기</button>
 		</div>
 		
-		
+		<%--   
 		
 		<div class="table_list_paging_wrap cfixed">
 			<div class="paging"> 
@@ -254,13 +254,9 @@ button:hover {
 				
 				</div>
 			</div>
-
+		--%>
 	</form>
-	<!-- detail을 보여주는 form 시작  -->
-		<!-- <form action="detail.do" id="cf">
-			<input name="idx" type="text"> secret이 설정되어있으면 history.back()한다. 
-		</form> -->
-		<!-- detail을 보여주는 form 끝 -->
+	
 </section>
 <script>
 	

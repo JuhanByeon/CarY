@@ -7,11 +7,18 @@ import com.project.cary.domain.CsVO;
 import com.project.cary.domain.PagingVO;
 
 public interface CSMapper {
+	
+	
 	public int insertCS(CsVO cs);
-	public List<CsVO> csList();
+	public List<CsVO> csTotalList();
 	public int getTotalCount();
-	public List<CsVO> pageCs(PagingVO pageInfo);
-	public CsVO getcs(int cs_idx);
-	public int editCs(Map<String,Object> map);
+	
+	//<select id="pageCs" parameterType="HashMap" resultType="Cs">
+		//select * from (	select ROWNUM rn, c.* from
+		//(select * from cs order by cs_idx desc) c)
+		//where rn between #{start} and #{end}
+	//</select>
+	public CsVO getSpecificCS(int idx);
+	public int editCS(CsVO cs);
 	public int deleteCS(int cs_idx);
 }

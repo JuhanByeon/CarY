@@ -14,25 +14,37 @@ public class CSServiceImpl implements CSService {
 
 	@Autowired
 	private CSMapper csMapper;
-	
+
 	@Override
-	public int getTotalCount() {
+	public int getTheNumberOfLists() {
 		return this.csMapper.getTotalCount();
 	}
 
 	@Override
-	public List<CsVO> csListwithPaging(PagingVO pageInfo) {
-		return this.csMapper.pageCs(pageInfo);
+	public List<CsVO> selectCSList() {
+		return this.csMapper.csTotalList();
 	}
 
 	@Override
-	public CsVO getcs(int idx) {
-		return this.csMapper.getcs(idx);
+	public CsVO selectCSbyidx(int idx) {
+		return this.csMapper.getSpecificCS(idx);
 	}
 
 	@Override
 	public int insertCS(CsVO cs) {
 		return this.csMapper.insertCS(cs);
 	}
+
+	@Override
+	public int updateCS(CsVO cs) {
+		return this.csMapper.editCS(cs);
+	}
+
+	@Override
+	public int deleteCSbyidx(int idx) {
+		return this.csMapper.deleteCS(idx);
+	}
+	
+	
 
 }

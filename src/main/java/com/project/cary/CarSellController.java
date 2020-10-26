@@ -84,9 +84,7 @@ public class CarSellController {
 			car.setCar_img1(c_img1);//랜덤하게 생성된 이름(c_img1)으로된 파일이름을 carInfo 객체에 넣어준다.
 			car.setCar_img2(c_img2);//랜덤하게 생성된 이름(c_img2)으로된 파일이름을 carInfo 객체에 넣어준다.
 			car.setCar_img3(c_img3);//랜덤하게 생성된 이름(c_img3)으로된 파일이름을 carInfo 객체에 넣어준다.
-			
 			// 유효성 체크
-
 			//세부모델명으로 카테고리별 코드를 찾는 메소드---------------------------------------------------------
 			CategoryVO category = this.carSellService.findACategorybySModelName(car.getS_name());
 			log.info(category);
@@ -101,7 +99,7 @@ public class CarSellController {
 			map.put("car_idx", car.getIdx());
 			map.put("opt_list",car.getOpt1());
 			int n2 = this.carSellService.insertOptInfo(map);
-			//-------------------------------------------------------------------------------------
+			//--------------------------------------------------------------------------------------
 			String msg = (n1>0)? "매물이 등록 되었습니다." : "매물 등록에 실패 했습니다.";
 			String loc = (n1>0)? "../index":"javascript:history.back()";
 			model.addAttribute("message",msg);
