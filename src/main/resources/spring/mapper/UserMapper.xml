@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.cary.mapper.UserMapper">
+	<!-- 회원가입을 수행하는 insert -->
+		<insert id="insertMember" parameterType="User">
+			insert into member
+			values(member_seq.nextval, #{member_id}, #{member_pwd}, #{member_email}, #{member_year}, #{member_month}, #{member_day}, #{member_sex}, #{member_post}, #{member_addr1}, #{member_addr2}, #{member_name}, #{member_phone}, sysdate)
+		</insert>
+	<!-- 로그인 여부를 체크 // 중복 아이디 체크 하는 select -->
+		<select id="checkById" parameterType="string" resultType="User">
+			select * from member where member_id= #{member_id}
+		</select>
+		
+		<select id="selectMemberByIdx" parameterType="_int" resultType="User">
+			select * from member where member_idx= #{member_idx}
+		</select>
+		
+		<update id="updateMember" parameterType="User">
+			update member set 
+			member_pwd = #{member_pwd}, member_email = #{member_email}, 
+			member_year=#{member_year}, member_month=#{member_month}, member_day=#{member_day}, 
+			member_sex=#{member_sex}, member_name=#{member_name}, member_phone=#{member_phone},
+			member_post=#{member_post}, member_addr1=#{member_addr1}, member_addr2=#{member_addr2}
+			where member_idx=#{member_idx}
+		</update>
+		
+</mapper>

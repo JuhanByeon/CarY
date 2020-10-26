@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.cary.mapper.CarMapper">
+
+	<!-- 브랜드 찾는 select -->
+	
+		<select id="brandSearchList" parameterType="int" resultType="Category">
+			select b_name from Brand where b_code like '${value}%'
+		</select>
+	
+	<!-- 모델 찾는 select -->
+	
+		<select id="modelSearchList" parameterType="string" resultType="Category">
+			select * from model join brand on model.b_code = brand.b_code where b_name=#{brand}
+		</select>
+	
+	<!-- 세부모델 찾는 select -->
+	
+		<select id="dmodelSearchList" parameterType="string" resultType="Category">
+			select * from model m join detailmodel d on m.m_code=d.m_code where m_name= #{value}
+		</select>
+	
+	<!-- 차량 판매글 등록 -->
+	
+		<insert id="carInsert" parameterType="CarInfo">
+			<selectKey keyProperty="idx" order="BEFORE" resultType="int">
+				select carinfo_seq.nextval from dual
+			</selectKey>
+			insert into carinfo (idx, car_num, car_size, b_code, m_code, s_code, car_fuel, car_age,
+			 car_cc, car_seat, car_gear, car_color, car_km, car_price, car_test, car_intro, member_idx, car_img1, car_img2, car_img3, car_date)
+			 values (#{idx}, #{car_num}, #{car_size}, #{b_code}, #{m_code}, #{s_code}, #{car_fuel}, #{car_age}, #{car_cc}, #{car_seat}, #{car_gear},
+			    #{car_color}, #{car_km}, #{car_price}, #{car_test, jdbcType=VARCHAR}, #{car_intro}, #{member_idx}, #{car_img1, jdbcType=VARCHAR}, #{car_img2, jdbcType=VARCHAR}, #{car_img3, jdbcType=VARCHAR}, sysdate)
+		</insert>
+
+	<!-- 세부모델 name 으로 세부모델코드, 모델코드, 브랜드코드 찾기 -->
+	
+		<select id="searchByDemodel" parameterType="string" resultType="Category">
+			select * from carinfo_view where s_name= #{s_name}
+		</select>
+	
+	<!-- 차량 판매글 옵션 정보 -->
+		<insert id="insertOptInfo" parameterType="hashmap" >
+			<foreach collection="opt_list" item="opt_num" separator=" " 
+			open="INSERT ALL" close="select * from dual">
+				INTO info_opt_rel VALUES(#{car_idx},#{opt_num})
+			</foreach>
+		</insert>
+	
+	
+		<select id="selectCarInfoByMemberIdx" resultType="CarInfo" parameterType="_int">
+			select * from carInfo_view2 where member_idx = #{member_idx}
+		</select>
+		
+   <!-- 차량 상세정보 가져오기 -->
+   <select id="selectCarDetail" resultType="CarInfo" parameterType="_int">
+      select * from carinfo_view2 where idx=#{idx}
+   </select>
+   
+   <!-- idx값으로 option_view 조회하기 -->
+   <select id="selectOption" resultType="com.project.cary.domain.OptionVO" parameterType="string">
+   		select * from option_view where idx=#{idx}
+   </select>
+	
+	<!-- 시세페이지에서 쓰는 조건별 검색 -->
+	<select id="carSearchByOption" resultType="CarInfo" parameterType="com.project.cary.domain.ChoiceVO">
+		select * from
+			(select rownum rn, al.* from 
+				(select * from carinfo_view2 
+				<where> 
+					<if test="countryNum != null" >
+						(b_code like #{countryNum}||'%')
+						and
+					</if>
+					<if test="b_code != null">
+						(b_code = #{b_code}) 
+						and
+					</if>
+				 
+					<if test="s_code != null">
+						(s_code = #{s_code}) 
+						and
+					</if>
+					
+					<if test="m_code != null">
+						(m_code = #{m_code}) 
+						and
+					</if>
+				
+					<if test="car_Color != null">
+						(car_color in
+							<foreach collection="car_Color" item="color" separator="," open="(" close=")">
+								#{color}
+							</foreach> 
+						) 
+						and
+					</if>
+					
+					<if test="car_Fuel != null">
+						(car_fuel in
+							<foreach collection="car_Fuel" item="fuel" separator="," open="(" close=")">
+								#{fuel}
+							</foreach> 
+						) 
+						and
+					</if>
+					
+					<if test="car_Gear != null">
+						(car_gear in
+							<foreach collection="car_Gear" item="gear" separator="," open="(" close=")">
+								#{gear}
+							</foreach> 
+						) 
+						and
+					</if>
+					
+					<if test="car_Seat != null">
+						(car_seat in
+							<foreach collection="car_Seat" item="seat" separator="," open="(" close=")">
+								#{seat}
+							</foreach> 
+						) 
+						and
+					</if>
+					<!-- (idx in('','')) 자 여기서 option 리스트 뽑아와서 리스트로 출력해주고 and-->
+					
+					<if test="idx_by_opt != null">
+						(idx in
+							<foreach collection="idx_by_opt" item="idx_num" separator="," open="(" close=")">
+								#{idx_num}
+							</foreach> 
+						) 
+						and
+					</if>
+				
+				<!--
+				(car_test != null) //테스트는 어떻게 할지 생각해보자
+				and
+				 -->
+				(car_km between #{car_distance_min} and #{car_distance_max})
+				</where>
+			<if test="start == null and end == null">
+				order by car_price asc 
+			) al)
+			</if>
+			<if test="start != null and end != null">
+				order by car_date desc
+			) al)
+				where rn between #{start} and #{end}
+			</if>
+	</select>
+	
+	<select id="findCarsByOpts" resultType="int" parameterType="list">
+		select distinct(idx) from info_opt_rel 
+		<where>
+			opt_idx in 
+			<foreach collection="list" item="opt" open="(" separator="," close=")" >
+				#{opt}
+			</foreach>
+		</where>
+	</select>
+	
+	<select id="findOptIntersection" parameterType="hashmap" resultType="_int">
+		select count(*) from info_opt_rel where idx = #{idx} and opt_idx = #{opt_idx}
+	</select>
+   
+</mapper>
+

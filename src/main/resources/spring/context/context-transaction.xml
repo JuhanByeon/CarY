@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+	<!-- context, tx 네임스페이스 추가 -->
+	<!-- 트랜잭션 빈을 자동으로 등록하도록 설정 -->
+	
+	<!--  <tx:annotation-driven/> -->  
+	 
+	<!-- transactionManager빈 등록 -->
+	<bean id="transactionManager"
+	 class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	 	<property name="dataSource" ref="hikariDataSource"/>
+	</bean>
+	
+	<!-- <tx:annotation-driven transaction-manager="transactionManager"/> -->
+	<!-- 
+	 <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="*" rollback-for="Exception"/>
+        </tx:attributes>
+    </tx:advice>
+    <aop:config>
+        <aop:pointcut id="requiredTx"
+            expression="execution(* com.tis.service.SampleServiceImpl.*(..)) or execution(* com.tis.persistence.SampleDaoMyBatis.*(..))"/> 
+        <aop:advisor advice-ref="txAdvice"
+            pointcut-ref="requiredTx" />
+    </aop:config>
+     -->
+     <!-- <aop:aspectj-autoproxy/> -->
+
+</beans>

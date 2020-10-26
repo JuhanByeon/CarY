@@ -1,0 +1,55 @@
+insert into alloption values(101,'에어백(운전석, 동승석)');
+insert into alloption values(102,'에어백(사이드)');
+insert into alloption values(103,'에어백(커튼)');
+insert into alloption values(104,'브레이크 잠김 방지(ABS)');
+insert into alloption values(105,'미끄럼 방지(TCS)');
+insert into alloption values(106,'차체자세 제어장치(ESC)');
+insert into alloption values(107,'타이어 공기압센서(TPMS)');
+insert into alloption values(108,'차선이탈 경보 시스템(LDWS)');
+insert into alloption values(111,'전자제어 서스페션(ECS)');
+insert into alloption values(112,'주차감지센서(전방,후방)');
+insert into alloption values(113,'후측방 경보 시스템');
+insert into alloption values(114,'후방카메라');
+insert into alloption values(115,'360도 어라운드뷰');
+
+
+insert into alloption values(201,'가죽시트');
+insert into alloption values(202,'전동시트(운전석, 동승석)');
+insert into alloption values(203,'전동시트(뒷좌석)');
+insert into alloption values(204,'열선시트(앞좌석, 뒷좌석)');
+insert into alloption values(205,'메모리시트(운전석, 동승석)');
+insert into alloption values(206,'통풍시트(운전석, 동승석)');
+insert into alloption values(207,'통풍시트(뒷좌석)');
+
+insert into alloption values(301,'선루프');
+insert into alloption values(302,'헤드램프(LED)');
+insert into alloption values(303,'파워전동트렁크');
+insert into alloption values(304,'고스트 도어 클로징');
+insert into alloption values(305,'전동접이 사이드 미러');
+insert into alloption values(306,'알루미늄 휠');
+insert into alloption values(307,'루프랙');
+insert into alloption values(308,'열선 스티어링 휠');
+insert into alloption values(309,'전동 조절 스티어링 휠');
+insert into alloption values(310,'패들 시프트');
+insert into alloption values(311,'스티어링 휠 리모컨');
+insert into alloption values(312,'ECM 룸미러');
+insert into alloption values(313,'하이패스');
+insert into alloption values(314,'파워 도어룩');
+insert into alloption values(315,'파워스티어링 휠');
+insert into alloption values(316,'파워윈도우');
+
+insert into alloption values(401,'크루즈컨트롤(어댑티브)');
+insert into alloption values(402,'헤드업 디스플레이(HUD)');
+insert into alloption values(403,'전자식 주차브레이크(EPB)');
+insert into alloption values(404,'자동 에어컨');
+insert into alloption values(405,'스마트키');
+insert into alloption values(406,'무선도어 잠금장치');
+insert into alloption values(407,'레인센서');
+insert into alloption values(408,'오토 라이트');
+insert into alloption values(409,'커튼/블라인드(뒷좌석, 후방)');
+insert into alloption values(410,'내비게이션');
+insert into alloption values(411,'앞좌석 AV 모니터');
+insert into alloption values(412,'뒷좌석 AV 모니터');
+insert into alloption values(413,'블루투스');
+insert into alloption values(414,'USB 단자');
+insert into alloption values(415,'AUX 단자');

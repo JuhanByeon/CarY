@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.cary.mapper.PostMapper">
+	
+	<!-- 검색된 주소의 총 갯수 select -->
+	
+		<select id="getTotalPost" parameterType="int" resultType="int">
+			select count(rownum) from zipcode where sido_Kor||doro_kor||bld_origin_num||bld_refer_num||
+			SIGUNGU_BLD_NAME||LAW_DONG_NAME||JIBEON_BONBEON||JIBEON_BUBEON||ADMIN_DONG_NAME like '%${roadName}%'
+		</select>
+	
+	<!-- 검색된 주소의 리스트 + 페이징 select -->
+	
+		<select id="ListPostByRoadName" parameterType="HashMap" resultType="Post">
+			select * from (select ROW_NUMBER () OVER (order by NEW_POST_CODE desc) rn,  zipcode.* from zipcode
+			 where sido_Kor||doro_kor||bld_origin_num||bld_refer_num||SIGUNGU_BLD_NAME||LAW_DONG_NAME||
+			  JIBEON_BONBEON||JIBEON_BUBEON||ADMIN_DONG_NAME like '%'||#{roadName}||'%') where rn between #{start} and #{end}
+		</select>
+</mapper>  
