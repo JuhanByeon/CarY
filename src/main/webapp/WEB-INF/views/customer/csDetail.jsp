@@ -269,20 +269,21 @@
             
     </section>
     
-     <form method="post" action="csedit">
-   		<input name="cs_idx" type="hidden" id="cs_idx"> 
-     </form> 
+     <form method="post" action="user/csedit">
+   		<input name="cs_idx" type="hidden" id="cs_idx">
+     </form>
      
     <script>
 		function clickDelete(){
 			$("#cs_idx").parent().prop('action','user/csdelete');
-			$("#cs_idx").prop('name','cs_idx');
 			$("#cs_idx").val(${cs.cs_idx});	
 			$("#cs_idx").parent().submit();		
 		}
 
  		function clickEdit(){
-   	 		$("#cs_idx").val($(".tbody").children(".table_num").text())
+ 			$("#cs_idx").parent().prop('action','user/csedit'); //물론 form에서 action은 'user/csedit'이지만 
+ 																//2nd check 처럼 명시해서 써주었다
+   	 		$("#cs_idx").val(${cs.cs_idx});	
     		//($(".tbody").children(".table_num").text())
     		$("#cs_idx").parent().submit()    		
     	}

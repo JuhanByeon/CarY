@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,10 +52,10 @@ public class CSController {
 		cs.setMember_idx(user.getMember_idx());
 		cs.setCs_writer(user.getMember_id());
 		
-		int csPostCheck = this.csService.insertCS(cs);
+		int check = this.csService.insertCS(cs);
 	
-		String msg = (csPostCheck>0)? "고객 게시판에 해당 게시물이 등록되었습니다":"고객 게시판 게시물 등록 실패";
-		String loc = (csPostCheck>0)? "../cshome":"javascript:history.back()";
+		String msg = (check>0)? "고객 게시판에 해당 게시물이 등록되었습니다":"고객 게시판 게시물 등록 실패";
+		String loc = (check>0)? "../cshome":"javascript:history.back()";
 		
 		model.addAttribute("message", msg);
 		model.addAttribute("loc", loc);
@@ -92,6 +93,23 @@ public class CSController {
 		model.addAttribute("loc", loc);
 		
 		return "msg";
-		
+	}
+	
+	@PostMapping("user/csedit")
+	public String csEdit(Model model, @RequestParam(defaultValue = "0") int cs_idx) {
+		CsVO cs = this.csService.selectCSbyidx(cs_idx);
+		model.addAttribute("cs", cs);
+		return "customer/csEdit";
+	}
+	
+	@PostMapping("user/cseditEnd")
+	public String csEditEnd(Model model, @ModelAttribute CsVO cs) {
+		log.info(cs);
+		int editCheck = this.csService.updateCS(cs);
+		String msg = (editCheck > 0)? "해당 게시물의 정보가 정상적으로 변경되었습니다.":"게시물 수정 실패";
+		String loc = (editCheck > 0)? "../cshome":"javascript:history.back()";
+		model.addAttribute("message", msg);
+		model.addAttribute("loc", loc);
+		return "msg";
 	}
 }

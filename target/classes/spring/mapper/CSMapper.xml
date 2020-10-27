@@ -10,7 +10,7 @@
 	</insert>
 
 	<select id="csTotalList" resultType="Cs">
-		select * from cs order by cs_idx desc
+		select * from cs order by cs_date desc
 	</select>
 
 	<select id="getTotalCount" resultType="int">
@@ -28,7 +28,7 @@
 	</select>
 		
 	<update id="editCS" parameterType="Cs">
-		update cs set cs_tit=#{cs_tit},cs_content=#{cs_content} where cs_idx=#{cs_idx}
+		update cs set cs_tit=#{cs_tit},cs_content=#{cs_content},cs_date=sysdate where cs_idx=#{cs_idx}
 	</update>
 	 
 	<delete id="deleteCS" parameterType="_int">

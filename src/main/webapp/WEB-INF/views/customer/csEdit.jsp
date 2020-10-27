@@ -105,12 +105,12 @@ input, textarea{
 </style>
 
  <section class="container" style="margin-top: 60px;">
-        <form action="cseditEnd" name="cs" id="cs" method="GET">
+        <form action="cseditEnd" name="cs" id="cs" method="post">
             <h1 class="board_tit">문의사항을 수정해주세요</h1>
 
             <div class="input_box">
                 <p class="input_tit">제목</p>
-                <input type="text" name="title" style="text-align: left !important;padding-left: 210px !important;" value="${cs.cs_tit}">
+                <input type="text" name="cs_tit" style="text-align: left !important;padding-left: 210px !important;" value="${cs.cs_tit}">
             </div>
 
             <!-- <div class="input_box">
@@ -119,7 +119,7 @@ input, textarea{
             </div> -->
 
             <div class="input_box">
-                <textarea name="content" id="content" cols="30" rows="30">${cs.cs_content}</textarea>
+                <textarea name="cs_content" id="content" cols="30" rows="30">${cs.cs_content}</textarea>
             </div>
 
             <div class="btn_group">
